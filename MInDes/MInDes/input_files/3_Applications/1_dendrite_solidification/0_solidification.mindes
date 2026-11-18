@@ -1,0 +1,46 @@
+Solver.Loop.OpenMP_Thread = 1
+Solver.Loop.begin_step = 0
+Solver.Loop.end_step = 4000
+Solver.Loop.dt = 1e-4
+Solver.Mesh.dr = 0.03
+
+Solver.Mesh.Nx = 256
+Solver.Mesh.Ny = 256
+
+Solver.Mesh.PCT = (1,0,true)
+
+Preprocess.Microstructure.geometry_layer_number = 1
+# .property = (phi_index, geometry_type, rotation_gauge, reverse_region) 
+#              geometry_type  : 0 - None, 1 - Ellipsoid, 2 - Polyhedron, 3 - Geo_SegmentedCylinder, 4 - RectangularCuboid 
+#              rotation_gauge : 0 - XYX, 1 - XZX, 2 - YXY, 3 - YZY, 4  - ZXZ, 5  - ZYZ 
+#                               6 - XYZ, 7 - XZY, 8 - YXZ, 9 - YZX, 10 - ZXY, 11 - ZYX 
+#  The compute box of the simulation mesh is [( 1 , 1 , 1 ) , ( 256 , 256 , 1 )] 
+#  The boundary of the simulation mesh is x = 0 and 257 , y = 0 and 257 , z = 0 and 2 
+Preprocess.Microstructure.geometry_layer_0.property = (0,1,1,false)
+# .ellipsoid = [(core_x,core_y,core_z),(radius_x,radius_y,radius_z),(rotation_angle_1,rotation_angle_2,rotation_angle_3)] 
+Preprocess.Microstructure.geometry_layer_0.ellipsoid = [(128,128,1),(3,3,3),(0,0,0)]
+Preprocess.Microstructure.geometry_layer_0.phi = 1.000000
+Preprocess.Microstructure.geometry_layer_0.temp = 0.000000
+
+# SimulationModels.model =  0 - None 
+#                           1 - Grain Grows Spinodal , PCT = (N,1,false) 
+#                           2 - Dendrite Solidification , PCT = (1,0,true), 2D 
+#                           4 - Data Driven Complex Model , PCT = (N > 0, K, true/false) 
+SimulationModels.model = 2
+SimulationModels.DendriteSolidification.tau = 0.000300
+SimulationModels.DendriteSolidification.epsilonb = 0.010000
+SimulationModels.DendriteSolidification.kappa = 1.800000
+SimulationModels.DendriteSolidification.delta = 0.020000
+SimulationModels.DendriteSolidification.aniso = 4
+SimulationModels.DendriteSolidification.alpha = 0.900000
+SimulationModels.DendriteSolidification.gamma = 10.000000
+SimulationModels.DendriteSolidification.teq = 1.000000
+SimulationModels.DendriteSolidification.theta0 = 0.200000
+========================================================================================= 
+Solver.Output.LOG.pct_loop_step = 50
+Solver.Output.LOG.pct_statistic_step = 100
+========================================================================================= 
+Solver.Output.VTS.frequence = 100
+Solver.Output.VTS.phi_all = true
+Solver.Output.VTS.temp = true
+========================================================================================= 

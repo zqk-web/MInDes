@@ -1,0 +1,58 @@
+=========================================================================================
+Solver.Loop.OpenMP_Thread = 1
+Solver.Loop.begin_step = 0
+Solver.Loop.end_step = 5000
+Solver.Loop.dt = 1e-4
+Solver.Mesh.Nx = 128
+Solver.Mesh.Ny = 128
+Solver.Mesh.dr = 0.5
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (2,1,false)
+Preprocess.Microstructure.geometry_layer_number = 2
+# .property = (phi_index, geometry_type, rotation_gauge, reverse_region) 
+#              geometry_type  : 0 - None, 1 - Ellipsoid, 2 - Polyhedron, 3 - Geo_SegmentedCylinder, 4 - RectangularCuboid 
+#              rotation_gauge : 0 - XYX, 1 - XZX, 2 - YXY, 3 - YZY, 4  - ZXZ, 5  - ZYZ 
+#                               6 - XYZ, 7 - XZY, 8 - YXZ, 9 - YZX, 10 - ZXY, 11 - ZYX 
+#  The compute box of the simulation mesh is [( 1 , 1 , 1 ) , ( 128 , 128 , 1 )] 
+#  The boundary of the simulation mesh is x = 0 and 129 , y = 0 and 129 , z = 0 and 2 
+Preprocess.Microstructure.geometry_layer_0.property = (0,1,1,false)
+# .ellipsoid = [(core_x,core_y,core_z),(radius_x,radius_y,radius_z),(rotation_angle_1,rotation_angle_2,rotation_angle_3)] 
+Preprocess.Microstructure.geometry_layer_0.ellipsoid = [(65.5,75.5,1),(11,11,11),(0,0,0)]
+Preprocess.Microstructure.geometry_layer_0.phi = 1.000000
+# .con = ( con_0_value, con_1_value, ... ) 
+Preprocess.Microstructure.geometry_layer_0.con = (1)
+Preprocess.Microstructure.geometry_layer_1.property = (1,1,1,false)
+# .ellipsoid = [(core_x,core_y,core_z),(radius_x,radius_y,radius_z),(rotation_angle_1,rotation_angle_2,rotation_angle_3)] 
+Preprocess.Microstructure.geometry_layer_1.ellipsoid = [(65.5,45.5,1),(20,20,20),(0,0,0)]
+Preprocess.Microstructure.geometry_layer_1.phi = 1.000000
+# .con = ( con_0_value, con_1_value, ... ) 
+Preprocess.Microstructure.geometry_layer_1.con = (1)
+========================================================================================= 
+# SimulationModels.model =  0 - None 
+#                           1 - Grain Grows Spinodal , PCT = (N,1,false) 
+#                           2 - Dendrite Solidification , PCT = (1,0,true), 2D 
+#                           3 - Solid State Sintering , PCT = (N >= 1,1,false) 
+#                           4 - Data Driven Complex Model , PCT = (N > 0, K, true/false) 
+SimulationModels.model = 3
+# SSS MATLAB update: rho_t = D(rho,eta) lap(mu); mu = df/drho - 0.5*kappa_rho*lap(rho).
+# eta_i,t = -L*(df/deta_i - 0.5*kappa_eta*lap(eta_i)); eta_i are updated in index order.
+# D = Dvol*phi(rho) + Dvap*(1-phi(rho)) + Dsurf*rho*(1-rho) + Dgb*sum(i!=j)eta_i*eta_j.
+# phi(rho) = rho^3*(10-15*rho+6*rho^2); MATLAB bounds are applied after each field update.
+SimulationModels.SolidStateSintering.A = 16.000000
+SimulationModels.SolidStateSintering.B = 1.000000
+SimulationModels.SolidStateSintering.kappa_rho = 5.000000
+SimulationModels.SolidStateSintering.kappa_eta = 2.000000
+SimulationModels.SolidStateSintering.L = 10.000000
+SimulationModels.SolidStateSintering.Dvol = 0.040000
+SimulationModels.SolidStateSintering.Dvap = 0.002000
+SimulationModels.SolidStateSintering.Dsurf = 16.000000
+SimulationModels.SolidStateSintering.Dgb = 1.600000
+========================================================================================= 
+Solver.Output.LOG.pct_loop_step = 50
+Solver.Output.LOG.pct_statistic_step = 100
+========================================================================================= 
+Solver.Output.VTS.frequence = 100
+Solver.Output.VTS.phi_all = true
+Solver.Output.VTS.phi2_summary = true
+Solver.Output.VTS.con_all = true
+========================================================================================= 

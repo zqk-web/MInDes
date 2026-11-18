@@ -1,0 +1,125 @@
+Solver.Loop.begin_step = 0
+Solver.Loop.end_step = 270
+Solver.Loop.dt = 1
+Solver.Mesh.Nx = 256
+Solver.Mesh.Ny = 256
+Solver.Mesh.dr = 1.0
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 1
+Solver.Mesh.BoundaryCondition.x_down = 1
+Solver.Mesh.BoundaryCondition.y_up = 1
+Solver.Mesh.BoundaryCondition.y_down = 1
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (2,0,false)
+# Solver.Mesh.EPF = ( is_mechanical_field_on, is_fluid_field_on ) 
+Solver.Mesh.EPF = (true,false)
+Preprocess.Microstructure.is_datafile_init = true
+# Preprocess.Microstructure.datafile_path : relative path from infile folder.
+Preprocess.Microstructure.datafile_path = 3_elastic_plastic_flow_structure\MeshData_step1000.dat
+========================================================================================= 
+# SimulationModels.model =  0 - None 
+#                           1 - Grain Grows Spinodal , PCT = (N,1,false) 
+#                           2 - Data Driven Complex Model , PCT = (N > 0, K, true/false) 
+SimulationModels.model = 2
+# Model.PhiProperties = {[(phi_name_0),(phi_index_0, phi_index_1, ... )],  ... } 
+Model.PhiProperties = {[(matrix),(0)],[(inclusion),(1)]}
+# Model.DDC.difference_method : 0 - SEVEN_POINT , 1 - NINETEEN_POINT 
+Model.DDC.difference_method = 0
+Model.DDC.Phi.is_normalize = true
+Model.DDC.Phi.PairWiseAcc.container_size = 2
+# Model.DDC.Phi.IntMobility.const  = Lij_value 
+#                          .matrix = [(phi_index_i, phi_index_j, Lij_value), ... ] 
+#                          .block  = [(phi_index_begin, phi_index_end, Lij_value), ... ] 
+Model.DDC.Phi.IntMobility.const = 0.0
+========================================================================================= 
+# Parameters in SolidMechanics module : 
+# Postprocess.SolidMechanics.calculate_step = ( simulation_step , ... ) 
+#                                           = empty - solver calculated every step , otherwise - solver calculated at the defined step 
+Postprocess.SolidMechanics.calculate_step = ()
+# Postprocess.SolidMechanics.solid_phase = ( phase_name_0, ... ) 
+Postprocess.SolidMechanics.solid_phase = (matrix,inclusion)
+# Postprocess.SolidMechanics.Stiffness.PhaseName  = [(C11,C12,C13,C14,C15,C16),\\ 
+#                                                    (C21,C22,C23,C24,C25,C26),\\ 
+#                                                    (C31,C32,C33,C34,C35,C36),\\ 
+#                                                    (C41,C42,C43,C44,C45,C46),\\ 
+#                                                    (C51,C52,C53,C54,C55,C56),\\ 
+#                                                    (C61,C62,C63,C64,C65,C66)] 
+# Postprocess.SolidMechanics.EigenStrain.PhaseName = (E11,E22,E33,2E23,2E13,2E12) 
+Postprocess.SolidMechanics.Stiffness.matrix = [(mC11,mC12,mC12,0,0,0),\\
+				  (mC12,mC11,mC12,0,0,0),\\
+				  (mC12,mC12,mC11,0,0,0),\\
+				  (0,0,0,mG,0,0),\\
+				  (0,0,0,0,mG,0),\\
+				  (0,0,0,0,0,mG)]
+Postprocess.SolidMechanics.EigenStrain.matrix = (0,0,0,0,0,0)
+Postprocess.SolidMechanics.Stiffness.inclusion = [(iC11,iC12,iC12,0,0,0),\\
+				     (iC12,iC11,iC12,0,0,0),\\
+				     (iC12,iC12,iC11,0,0,0),\\
+				     (0,0,0,iG,0,0),\\
+				     (0,0,0,0,iG,0),\\
+				     (0,0,0,0,0,iG)]
+Postprocess.SolidMechanics.EigenStrain.inclusion = (0,0,0,0,0,0)
+# Postprocess.SolidMechanics.Elasticity.momentum_balance = 0 - None , 1 - Implicit (Ingo Steinbach) , 2 - Implicit (Armen G. Khachaturyan) 
+Postprocess.SolidMechanics.Elasticity.momentum_balance = 1
+# Postprocess.SolidMechanics.Elasticity.SolverRestartInLoop.steps = 1
+# Postprocess.SolidMechanics.Elasticity.fix_boundary.type = (BC_X, BC_Y, BC_Z) , 0 - Average , 1 - Strain , 2 - Stress 
+Postprocess.SolidMechanics.Elasticity.fix_boundary.type = (1,0,0)
+Postprocess.SolidMechanics.Elasticity.fix_boundary.strain_x = 0.000000
+# Postprocess.SolidMechanics.Elasticity.fix_boundary.strain_XX = [(real_time_begin, real_time_end, dstrain_dt), ... ] 
+Postprocess.SolidMechanics.Elasticity.fix_boundary.strain_x.rate = [(0,30.5,0.0001),(30.5,90.5,-0.0001),(90.5,150.5,0.0001),(150.5,210.5,-0.0001),(210.5,270.5,0.0001)]
+Postprocess.SolidMechanics.Elasticity.write_displacement_field = true
+Postprocess.SolidMechanics.Elasticity.max_iteration_steps = 100
+Postprocess.SolidMechanics.Elasticity.debug = false
+Postprocess.SolidMechanics.Elasticity.strain_accuracy = 0.00001
+
+Postprocess.SolidMechanics.is_plasticity_on = true
+# Postprocess.SolidMechanics.Plasticity.yield_stress = ( phi_property_0_stress, ... ) 
+#                                      .hardening_modulus = ( phi_property_0_modulus, ...) 
+#                                      .shear_modulus = ( phi_property_0_modulus, ...) 
+Postprocess.SolidMechanics.Plasticity.yield_stress = (m_yeild_stress,i_yeild_stress)
+Postprocess.SolidMechanics.Plasticity.hardening_modulus = (m_hardening,i_hardening)
+Postprocess.SolidMechanics.Plasticity.shear_modulus = (mG,iG)
+
+Postprocess.SolidMechanics.ElastoPlasticity.mapping_steps = 100
+
+# Postprocess.SolidMechanics.statistic  = ( STA_KEY , ... ) 
+#       STA_KEY = 
+#                 app_strain : applied strain on each direction
+#                 app_stress : applied stress on each direction
+#                 ave_strain : average strain on each direction
+#                 ave_stress : average stress on each direction
+#                 max_vMises_stress : max von Mises stress
+Postprocess.SolidMechanics.statistic = (app_strain, ave_stress)
+
+========================================================================================= 
+Solver.Output.LOG.pct_loop_step = 1
+Solver.Output.LOG.pct_statistic_step = 1
+Solver.Output.VTS.phi_index = TRUE
+Solver.Output.VTS.mech_stress = TRUE
+Solver.Output.VTS.mech_strain = TRUE
+Solver.Output.VTS.mech_non_elastic_strain = TRUE
+Solver.Output.VTS.mech_J1 = TRUE
+Solver.Output.VTS.mech_vMises = TRUE
+Solver.Output.VTS.frequence = 1000
+Solver.Output.VTS.with_boundary = TRUE
+========================================================================================= 
+Define.Var = mE,2.1e11
+Define.Var = mv,0.288
+# 2G(1+v)=E
+Define.Var = mG,8.152e10
+Define.Var = m_yeild_stress,2.75e8
+Define.Var = m_hardening,1e9
+
+Define.Var = Az,1.0
+
+Define.Var = iE,1e10
+Define.Var = iv,0.288
+Define.Var = iG,3.882e9
+Define.Var = i_yeild_stress,2.75e11
+Define.Var = i_hardening,1e6
+
+Define.Func = mC12@{[mv*mG/(1-2*mv)]}@
+Define.Func = mC11@{[(2*mG/Az+mC12<0>)]}@
+
+Define.Func = iC12@{[iv*iG/(1-2*iv)]}@
+Define.Func = iC11@{[(2*iG/Az+iC12<0>)]}@

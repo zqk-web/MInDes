@@ -1,0 +1,50 @@
+=========================================================================================
+Solver.Loop.OpenMP_Thread = 1
+Solver.Loop.begin_step = 0
+Solver.Loop.end_step = 10000
+Solver.Loop.dt = 1e-2
+Solver.Mesh.Nx = 128
+Solver.Mesh.Ny = 128
+Solver.Mesh.dr = 1.000000
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 1
+Solver.Mesh.BoundaryCondition.x_down = 1
+Solver.Mesh.BoundaryCondition.y_up = 1
+Solver.Mesh.BoundaryCondition.y_down = 1
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (20,0,false)
+# .matrix_phi = ( phi_index, phi_value ) 
+Preprocess.Microstructure.matrix_phi = (0,1)
+# .voronoi = (phi_index_begin, phi_index_end) 
+Preprocess.Microstructure.voronoi = (0,19)
+========================================================================================= 
+# SimulationModels.model =  0 - None 
+#                           1 - Grain Grows Spinodal , PCT = (N,1,false) 
+#                           2 - Dendrite Solidification , PCT = (1,0,true), 2D 
+#                           3 - Solid State Sintering , PCT = (N >= 1,1,false) 
+#                           4 - Data Driven Complex Model , PCT = (N > 0, K, true/false) 
+SimulationModels.model = 4
+# Model.DDC.difference_method : 0 - SEVEN_POINT , 1 - NINETEEN_POINT 
+Model.DDC.difference_method = 0
+Model.DDC.Phi.PairWiseAcc.container_size = 6
+# Model.DDC.Phi.IntMobility.const  = Lij_value 
+#                          .matrix = [(phi_index_i, phi_index_j, Lij_value), ... ] 
+#                          .block  = [(phi_index_begin, phi_index_end, Lij_value), ... ] 
+Model.DDC.Phi.IntMobility.const = 1.000000
+# Model.DDC.Phi.InterfaceEnergy.int_gradient : 0 - Steinbach_1996 , 1 - Steinbach_1999 , 2 - Steinbach_G2009 
+Model.DDC.Phi.InterfaceEnergy.int_gradient = 1
+# Model.DDC.Phi.InterfaceEnergy.int_potential : 0 - Nestler_Well , 1 - Nestler_Obstacle , 2 - Steinbach_P2009 
+Model.DDC.Phi.InterfaceEnergy.int_potential = 1
+Model.DDC.Phi.InterfaceEnergy.int_width = 4.000000
+# Model.DDC.Phi.InterfaceEnergy.const  = xi_ab 
+#                              .matrix = [(phi_a_name, phi_b_name, xi_ab), ...] 
+Model.DDC.Phi.InterfaceEnergy.const = 1.000000
+Model.DDC.Output.VTS.active_phis = true
+========================================================================================= 
+Solver.Output.LOG.pct_loop_step = 100
+Solver.Output.LOG.pct_statistic_step = 500
+========================================================================================= 
+Solver.Output.VTS.frequence = 500
+Solver.Output.VTS.phi_index = true
+Solver.Output.VTS.phi2_summary = true
+========================================================================================= 

@@ -1,0 +1,65 @@
+=========================================================================================
+Solver.Loop.OpenMP_Thread = 1
+Solver.Loop.begin_step = 0
+Solver.Loop.end_step = 10000
+Solver.Loop.dt = 1e-2
+Solver.Mesh.Nx = 128
+Solver.Mesh.Ny = 128
+Solver.Mesh.dr = 1.000000
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 1
+Solver.Mesh.BoundaryCondition.x_down = 1
+Solver.Mesh.BoundaryCondition.y_up = 1
+Solver.Mesh.BoundaryCondition.y_down = 1
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (2,0,false)
+# .matrix_phi = ( phi_index, phi_value ) 
+Preprocess.Microstructure.matrix_phi = (0,1)
+Preprocess.Microstructure.geometry_layer_number = 1
+# .property = (phi_index, geometry_type, rotation_gauge, reverse_region) 
+#              geometry_type  : 0 - None, 1 - Ellipsoid, 2 - Polyhedron, 3 - Geo_SegmentedCylinder, 4 - RectangularCuboid 
+#              rotation_gauge : 0 - XYX, 1 - XZX, 2 - YXY, 3 - YZY, 4  - ZXZ, 5  - ZYZ 
+#                               6 - XYZ, 7 - XZY, 8 - YXZ, 9 - YZX, 10 - ZXY, 11 - ZYX 
+#  The compute box of the simulation mesh is [( 1 , 1 , 1 ) , ( 128 , 128 , 1 )] 
+#  The boundary of the simulation mesh is x = 0 and 129 , y = 0 and 129 , z = 0 and 2 
+Preprocess.Microstructure.geometry_layer_0.property = (1,1,1,false)
+# .ellipsoid = [(core_x,core_y,core_z),(radius_x,radius_y,radius_z),(rotation_angle_1,rotation_angle_2,rotation_angle_3)] 
+Preprocess.Microstructure.geometry_layer_0.ellipsoid = [(65.5,65.5,1),(20,20,20),(0,0,0)]
+Preprocess.Microstructure.geometry_layer_0.phi = 1.000000
+Preprocess.Microstructure.geometry_layer_0.is_normalized = true
+========================================================================================= 
+# SimulationModels.model =  0 - None 
+#                           1 - Grain Grows Spinodal , PCT = (N,1,false) 
+#                           2 - Dendrite Solidification , PCT = (1,0,true), 2D 
+#                           3 - Solid State Sintering , PCT = (N >= 1,1,false) 
+#                           4 - Data Driven Complex Model , PCT = (N > 0, K, true/false) 
+SimulationModels.model = 4
+# Model.PhiProperties = {[(phi_name_0),(phi_index_0, phi_index_1, ... )],  ... } 
+Model.PhiProperties = {[(PHI_0),(0)],[(PHI_1),(1)]}
+# Model.DDC.difference_method : 0 - SEVEN_POINT , 1 - NINETEEN_POINT 
+Model.DDC.difference_method = 0
+Model.DDC.Phi.is_normalize = true
+Model.DDC.Phi.PairWiseAcc.container_size = 2
+# Model.DDC.Phi.IntMobility.const  = Lij_value 
+#                          .matrix = [(phi_index_i, phi_index_j, Lij_value), ... ] 
+#                          .block  = [(phi_index_begin, phi_index_end, Lij_value), ... ] 
+Model.DDC.Phi.IntMobility.const = 1.000000
+# Model.DDC.Phi.InterfaceEnergy.int_gradient : 0 - Steinbach_1996 , 1 - Steinbach_1999 , 2 - Steinbach_G2009 
+Model.DDC.Phi.InterfaceEnergy.int_gradient = 1
+# Model.DDC.Phi.InterfaceEnergy.int_potential : 0 - Nestler_Well , 1 - Nestler_Obstacle , 2 - Steinbach_P2009 
+Model.DDC.Phi.InterfaceEnergy.int_potential = 1
+Model.DDC.Phi.InterfaceEnergy.int_width = 4.000000
+# Model.DDC.Phi.InterfaceEnergy.const  = xi_ab 
+#                              .matrix = [(phi_a_name, phi_b_name, xi_ab), ...] 
+Model.DDC.Phi.InterfaceEnergy.const = 1.000000
+# Model.DDC.Phi.BulkEnergy.const = [(phi_name, bulk_energy), ... ], default energy = 0 
+Model.DDC.Phi.BulkEnergy.const = [(PHI_0,0.0),(PHI_1,-0.1)]
+Model.DDC.Output.VTS.active_phis = true
+========================================================================================= 
+Solver.Output.LOG.pct_loop_step = 100
+Solver.Output.LOG.pct_statistic_step = 500
+========================================================================================= 
+Solver.Output.VTS.frequence = 500
+Solver.Output.VTS.phi_index = true
+Solver.Output.VTS.phi2_summary = true
+========================================================================================= 

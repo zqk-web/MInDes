@@ -1,0 +1,48 @@
+Solver.Mesh.Nx = 96
+Solver.Mesh.Ny = 32
+Solver.Mesh.Nz = 32
+Solver.Loop.dt = 1.000000
+Solver.Mesh.dr = 1.000000
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 1
+Solver.Mesh.BoundaryCondition.x_down = 1
+Solver.Mesh.BoundaryCondition.y_up = 2
+Solver.Mesh.BoundaryCondition.y_down = 2
+Solver.Mesh.BoundaryCondition.z_up = 2
+Solver.Mesh.BoundaryCondition.z_down = 2
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (1,0,false)
+# Solver.Mesh.EPF = ( is_mechanical_field_on, is_fluid_field_on ) 
+Solver.Mesh.EPF = (false,true)
+
+# Parameters in FluidDynamics module : 
+Postprocess.FluidDynamics.max_iterate_steps = 10000
+Postprocess.FluidDynamics.debug_output_step = 10
+Postprocess.FluidDynamics.momentum_accuracy = 1e-6
+# tau = viscosity / fluid_dt / Cs2 + 0.5 
+Postprocess.FluidDynamics.liquid_viscosity = 0.1
+Postprocess.FluidDynamics.liquid_density = 1.0
+# Postprocess.FluidDynamics.BoundaryCondition.[direction] = [BC] 
+#                           [direction] = x_up , x_down , y_up , y_down 
+#                           [BC] = 0 - Wall, 1 - Period, 2 - Free, 3 - Pressure, 4 - Normal_Flow 
+Postprocess.FluidDynamics.BoundaryCondition.x_up = 2
+Postprocess.FluidDynamics.BoundaryCondition.x_down = 4
+Postprocess.FluidDynamics.BoundaryCondition.x_down.normal_velocity = 0.01
+Postprocess.FluidDynamics.BoundaryCondition.y_up = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_up.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.y_up.wall_speed = 0.0
+Postprocess.FluidDynamics.BoundaryCondition.y_down = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_down.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.y_down.wall_speed = 0.0
+Postprocess.FluidDynamics.BoundaryCondition.z_up = 0
+Postprocess.FluidDynamics.BoundaryCondition.z_up.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.z_up.wall_speed = 0.0
+Postprocess.FluidDynamics.BoundaryCondition.z_down = 0
+Postprocess.FluidDynamics.BoundaryCondition.z_down.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.z_down.wall_speed = 0.0
+
+Solver.Output.VTS.frequence = 100
+Solver.Output.VTS.fluid_velocity = true
+Solver.Output.VTS.fluid_abs_velocity = true
+Solver.Output.VTS.fluid_pressure = true
+Solver.Output.VTS.fluid_density = true

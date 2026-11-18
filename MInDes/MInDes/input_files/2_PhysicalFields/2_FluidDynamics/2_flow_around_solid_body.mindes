@@ -1,0 +1,57 @@
+Solver.Loop.OpenMP_Thread = 2
+Solver.Mesh.Nx = 256
+Solver.Mesh.Ny = 128
+Solver.Loop.dt = 1.000000
+Solver.Mesh.dr = 1.000000
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 1
+Solver.Mesh.BoundaryCondition.x_down = 1
+Solver.Mesh.BoundaryCondition.y_up = 2
+Solver.Mesh.BoundaryCondition.y_down = 2
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (1,0,false)
+# Solver.Mesh.EPF = ( is_mechanical_field_on, is_fluid_field_on ) 
+Solver.Mesh.EPF = (false,true)
+
+# .matrix_phi = ( phi_index, phi_value ) 
+Preprocess.Microstructure.matrix_phi = (0,0)
+Preprocess.Microstructure.geometry_layer_number = 1
+# .property = (phi_index, geometry_type, rotation_gauge, reverse_region) 
+#              geometry_type  : 0 - None, 1 - Ellipsoid, 2 - Polyhedron, 3 - Geo_SegmentedCylinder, 4 - RectangularCuboid 
+#              rotation_gauge : 0 - XYX, 1 - XZX, 2 - YXY, 3 - YZY, 4  - ZXZ, 5  - ZYZ 
+#                               6 - XYZ, 7 - XZY, 8 - YXZ, 9 - YZX, 10 - ZXY, 11 - ZYX 
+#  The compute box of the simulation mesh is [( 1 , 1 , 1 ) , ( 256 , 128 , 1 )] 
+#  The boundary of the simulation mesh is x = 0 and 257 , y = 0 and 129 , z = 0 and 2 
+Preprocess.Microstructure.geometry_layer_0.property = (0,1,1,false)
+Preprocess.Microstructure.geometry_layer_0.ellipsoid = [(65.5,65.5,1),(10,10,10),(0,0,0)]
+Preprocess.Microstructure.geometry_layer_0.phi = 1.0
+
+# Parameters in FluidDynamics module : 
+Postprocess.FluidDynamics.max_iterate_steps = 10000
+Postprocess.FluidDynamics.debug_output_step = 100
+Postprocess.FluidDynamics.momentum_accuracy = 1e-5
+# tau = viscosity / fluid_dt / Cs2 + 0.5 
+Postprocess.FluidDynamics.liquid_viscosity = 0.05
+Postprocess.FluidDynamics.liquid_density = 5.0
+# Postprocess.FluidDynamics.BoundaryCondition.[direction] = [BC] 
+#                           [direction] = x_up , x_down , y_up , y_down 
+#                           [BC] = 0 - Wall, 1 - Period, 2 - Free, 3 - Pressure, 4 - Normal_Flow 
+Postprocess.FluidDynamics.BoundaryCondition.x_up = 2
+Postprocess.FluidDynamics.BoundaryCondition.x_down = 3
+Postprocess.FluidDynamics.BoundaryCondition.x_down.pressure = 1.7
+Postprocess.FluidDynamics.BoundaryCondition.y_up = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_up.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.y_up.wall_speed = 0.0
+Postprocess.FluidDynamics.BoundaryCondition.y_down = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_down.wall_roughness = 1.000000
+Postprocess.FluidDynamics.BoundaryCondition.y_down.wall_speed = 0.0
+
+# Postprocess.FluidDynamics.solid_phi_index = ( index_0, ... ) 
+Postprocess.FluidDynamics.solid_phi_index = (0)
+
+Solver.Output.VTS.frequence = 100
+Solver.Output.VTS.fluid_velocity = true
+Solver.Output.VTS.fluid_abs_velocity = true
+Solver.Output.VTS.fluid_pressure = true
+Solver.Output.VTS.fluid_density = true
+Solver.Output.VTS.phi_all = true

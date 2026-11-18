@@ -1,0 +1,83 @@
+Solver.Loop.OpenMP_Thread = 4
+Solver.Mesh.Nx = 100
+Solver.Mesh.Ny = 100
+Solver.Mesh.Nz = 50
+Solver.Loop.dt = 1.000000
+Solver.Mesh.dr = 1.000000
+# Solver.Mesh.BoundaryCondition : 0 - FIXED , 1 - PERIODIC , 2 - ZEROFLUX , 3 - OPEN 
+Solver.Mesh.BoundaryCondition.x_up = 2
+Solver.Mesh.BoundaryCondition.x_down = 2
+Solver.Mesh.BoundaryCondition.y_up = 2
+Solver.Mesh.BoundaryCondition.y_down = 2
+Solver.Mesh.BoundaryCondition.z_up = 2
+Solver.Mesh.BoundaryCondition.z_down = 2
+# Solver.Mesh.PCT = ( phi_number, con_number, is_temperature_on ) 
+Solver.Mesh.PCT = (1,0,false)
+# Solver.Mesh.EPF = ( is_mechanical_field_on, is_fluid_field_on ) 
+Solver.Mesh.EPF = (false,true)
+
+# .matrix_phi = ( phi_index, phi_value ) 
+Preprocess.Microstructure.matrix_phi = (0,0)
+Preprocess.Microstructure.geometry_layer_number = 3
+# .property = (phi_index, geometry_type, rotation_gauge, reverse_region) 
+#              geometry_type  : 0 - None, 1 - Ellipsoid, 2 - Polyhedron, 3 - Geo_SegmentedCylinder, 4 - RectangularCuboid 
+#              rotation_gauge : 0 - XYX, 1 - XZX, 2 - YXY, 3 - YZY, 4  - ZXZ, 5  - ZYZ 
+#                               6 - XYZ, 7 - XZY, 8 - YXZ, 9 - YZX, 10 - ZXY, 11 - ZYX 
+#  The compute box of the simulation mesh is [( 1 , 1 , 1 ) , ( 256 , 128 , 1 )] 
+#  The boundary of the simulation mesh is x = 0 and 257 , y = 0 and 129 , z = 0 and 2 
+Preprocess.Microstructure.geometry_layer_0.property = (0,2,1,false)
+Preprocess.Microstructure.geometry_layer_0.polyhedron = {[(41,61,26)],\\
+[(26,51,21),(51,51,21),(51,51,22)],\\
+[(51,51,21),(51,76,21),(51,51,22)],\\
+[(51,76,21),(26,76,21),(51,76,22)],\\
+[(26,76,21),(26,51,21),(26,51,22)],\\
+[(26,76,21),(26,51,21),(27,51,21)],[(0,0,0)]}
+Preprocess.Microstructure.geometry_layer_0.phi = 1.0
+Preprocess.Microstructure.geometry_layer_1.property = (0,2,1,false)
+Preprocess.Microstructure.geometry_layer_1.polyhedron = {[(61,61,36)],\\
+[(76,51,31),(51,51,31),(51,51,32)],\\
+[(51,51,31),(51,76,31),(51,51,32)],\\
+[(51,76,31),(76,76,31),(51,76,32)],\\
+[(76,76,31),(76,51,31),(76,51,32)],\\
+[(76,76,31),(76,51,31),(77,51,31)],[(0,0,0)]}
+Preprocess.Microstructure.geometry_layer_1.phi = 1.0
+Preprocess.Microstructure.geometry_layer_2.property = (0,2,1,false)
+Preprocess.Microstructure.geometry_layer_2.polyhedron = {[(61,41,46)],\\
+[(51,51,41),(76,51,41),(76,51,42)],\\
+[(76,51,41),(76,26,41),(76,26,42)],\\
+[(76,26,41),(51,26,41),(51,26,42)],\\
+[(51,26,41),(51,51,41),(51,51,42)],\\
+[(51,26,41),(51,51,41),(52,51,41)],[(0,0,0)]}
+Preprocess.Microstructure.geometry_layer_2.phi = 1.0
+
+# Parameters in FluidDynamics module : 
+Postprocess.FluidDynamics.max_iterate_steps = 2000
+Postprocess.FluidDynamics.debug_output_step = 10
+Postprocess.FluidDynamics.momentum_accuracy = 5e-3
+# tau = viscosity / fluid_dt / Cs2 + 0.5 
+Postprocess.FluidDynamics.liquid_viscosity = 0.05
+Postprocess.FluidDynamics.liquid_density = 5.0
+# Postprocess.FluidDynamics.BoundaryCondition.[direction] = [BC] 
+#                           [direction] = x_up , x_down , y_up , y_down 
+#                           [BC] = 0 - Wall, 1 - Period, 2 - Free, 3 - Pressure, 4 - Normal_Flow 
+Postprocess.FluidDynamics.BoundaryCondition.x_up = 0
+Postprocess.FluidDynamics.BoundaryCondition.x_up.wall_roughness = 0.1
+Postprocess.FluidDynamics.BoundaryCondition.x_down = 0
+Postprocess.FluidDynamics.BoundaryCondition.x_down.wall_roughness = 0.1
+Postprocess.FluidDynamics.BoundaryCondition.y_up = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_up.wall_roughness = 0.1
+Postprocess.FluidDynamics.BoundaryCondition.y_down = 0
+Postprocess.FluidDynamics.BoundaryCondition.y_down.wall_roughness = 0.1
+Postprocess.FluidDynamics.BoundaryCondition.z_up = 2
+Postprocess.FluidDynamics.BoundaryCondition.z_down = 3
+Postprocess.FluidDynamics.BoundaryCondition.z_down.pressure = 1.8
+
+# Postprocess.FluidDynamics.solid_phi_index = ( index_0, ... ) 
+Postprocess.FluidDynamics.solid_phi_index = (0)
+
+Solver.Output.VTS.frequence = 100
+Solver.Output.VTS.fluid_velocity = true
+Solver.Output.VTS.fluid_abs_velocity = true
+Solver.Output.VTS.fluid_pressure = true
+Solver.Output.VTS.fluid_density = true
+Solver.Output.VTS.phi_all = true
